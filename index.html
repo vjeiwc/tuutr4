@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading ...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2e015a, #6829b7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #472b71;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .container img {
+            border-radius: 10px;
+            width: 250px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #835bdb;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6e48c5;
+        }
+
+        #alertText {
+            margin-top: 1rem;
+            background-color: rgb(31, 41, 55);
+            border-color: rgb(139, 92, 246);
+            border-width: 1px;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            max-width: 280px;
+        }
+
+        #alertText .status-title {
+            color: rgb(216, 180, 254);
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        #alertText .status-message {
+            color: rgb(209, 213, 219);
+        }
+
+        #alertText {
+            display: none;
+        }
+
+        .loader::before,
+        .loader::after {
+            content: "";
+            grid-area: 1/1;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.915;
+            transform: rotate(30deg);
+        }
+
+        .loader::after {
+            opacity: 0.83;
+            transform: rotate(60deg);
+        }
+
+        @keyframes l23 {
+            100% {
+                transform: rotate(1turn)
+            }
+        }
+
+        .center {
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+
+    <script>
+        let link = 'onlyfans.com/annadelos/trial/meynmyjprtsifvjidgve0pni7i6epspa';
+        let redirectUrl = 'https://' + link;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="center" id="mainHeader">
+            <div class="loader"></div>
+            <div id="countdown">3</div>
+        </h1>
+        <div id="buttonsContainer">
+            <button onclick="openLink()" id="openLinkButton">Open Link</button>
+            <button onclick="copyLink()">Copy Link</button>
+        </div>
+        <div id="alertText">
+            <div class="status-title">Status</div>
+            <div class="status-message">Loading ...</div>
+        </div>
+    </div>
+
+    <script>
+        const isTikTokBrowser = /TikTok|WebView/i.test(navigator.userAgent);
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        // Убираем кнопку Open Link для iOS
+        if(isIOS) {
+            document.getElementById('openLinkButton').style.display = 'none';
+        }
+
+        // Инициализация для iOS в TikTok
+        if(isIOS && isTikTokBrowser) {
+            document.getElementById('countdown').style.display = 'none';
+            document.querySelector('.loader').style.display = 'none';
+            
+            // Добавляем гифку и текст в существующую структуру
+            const header = document.getElementById('mainHeader');
+            header.innerHTML = `
+                <video autoplay loop muted playsinline style="width: 250px; border-radius: 10px;">
+                    <source src="https://i.imgur.com/AVOl5S8.mp4" type="video/mp4">
+                </video>
+                <div style="margin: 15px 0; font-size: 0.9em; max-width: 300px;">
+                    Follow the video instructions above, or just tap the "Copy Link" button 
+                    and paste it into your Google or Safari browser.
+                </div>
+            `;
+        }
+
+        // Для iOS во внешних браузерах - мгновенный редирект
+        if(isIOS && !isTikTokBrowser) {
+            window.location.href = 'http://' + link;
+        }
+
+        // Таймер только для Android
+        if(isAndroid) {
+            let countdownNumber = 3; 
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.style.display = 'block';
+
+            const countdownInterval = setInterval(() => {
+                countdownNumber--;
+                countdownElement.innerText = countdownNumber; 
+
+                if(countdownNumber <= 0) {
+                    clearInterval(countdownInterval);
+                    openLink();
+                }
+            }, 1000);
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(redirectUrl).then(() => {
+                showAlert('Link copied to clipboard!');
+            }, () => {
+                showAlert('Failed to copy the link.', true);
+            });
+        }
+
+        function openLink() {
+            if(isIOS && isTikTokBrowser) {
+                copyLink();
+                return;
+            }
+
+            if(isAndroid) {
+                window.location.href = "intent://" + link + "#Intent;package=com.android.chrome;scheme=https;end";
+            }
+            window.open("https://" + link);
+            
+            showAlert('If the link didn\'t open automatically, try copying it and opening it manually in another browser.');
+        }
+
+        function showAlert(message, isError = false) {
+            const alertText = document.getElementById("alertText");
+            alertText.style.display = "block";
+            alertText.querySelector(".status-title").innerText = "Status";
+            alertText.querySelector(".status-message").innerText = message;
+        }
+    </script>
+</body>
+</html>
