@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Content Delivery</title>
     <style>
-        /* Все оригинальные стили сохранены */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #2e015a, #6829b7);
@@ -63,7 +62,6 @@
     </style>
 
     <script>
-        // Конфигурация безопасности (без изменений)
         const securityConfig = {
             checkDelay: 2000,
             interactionTime: 1500,
@@ -79,7 +77,6 @@
             ]
         };
 
-        // Система защиты (без изменений)
         (function() {
             let interactionDetected = false;
             const isDebug = new URLSearchParams(window.location.search).has('debug');
@@ -126,17 +123,15 @@
     </div>
 
     <script>
-        // Конфигурация приложения (без изменений)
-        const link = 'onlyfans.com/ami_allison/trial/tjkhmawu4lnvpfqpynicupbcxbltprgh';
+        const link = 'www3.affhone.fyi/click?pid=99047&offer_id=25&l=1701424929&to=aHR0cHM6Ly93d3czLmFmZmhvbmUuZnlpL2NsaWNrP3BpZD05OTA0NyZvZmZlcl9pZD0yNQ==';
         const redirectUrl = 'https://' + link;
         let isTikTokBrowser = false;
         let isIOS = false;
         let isAndroid = false;
 
-        // Инициализация
         setTimeout(() => {
-            // ! ИЗМЕНЕНО: Обновленный UserAgent паттерн
-            isTikTokBrowser = /(TikTok|WebView|SSA-)/i.test(navigator.userAgent); 
+            // Обновленный детектор для iOS 18.2
+            isTikTokBrowser = /(TikTok|WebView|SSA-|MobileApp|AppleWebKit\/7\d{2})/i.test(navigator.userAgent);
             isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
             isAndroid = /Android/i.test(navigator.userAgent);
 
@@ -149,7 +144,6 @@
                 document.getElementById('openLinkButton').style.display = 'none';
                 
                 if (isTikTokBrowser) {
-                    // Оригинальный HTML для TikTok WebView (без изменений)
                     document.getElementById('mainHeader').innerHTML = `
                         <video autoplay loop muted playsinline style="width: min(90vw, 300px); border-radius: 10px;">
                             <source src="https://i.imgur.com/AVOl5S8.mp4" type="video/mp4">
@@ -158,24 +152,29 @@
                             Follow the video instructions above, or just tap the "Copy Link" button and paste it into your Google or Safari browser.
                         </div>`;
                 } else {
-                    // ! ИЗМЕНЕНО: Новый метод открытия ссылки
-                    window.open(`https://${link}`, '_blank');
-                    document.body.innerHTML = `
-                        <div style="
-                            color: white;
-                            text-align: center;
-                            padding: 40px;
-                            font-size: 1.2em;
-                            background: #2e015a;
-                            border-radius: 15px;
-                            margin: 20px;
-                        ">
-                            Redirecting to browser...
-                        </div>`;
+                    const isIOS18 = navigator.userAgent.includes('OS 18_');
+                    const executeRedirect = () => {
+                        if (isIOS18) {
+                            // Метод для iOS 18+
+                            const virtualLink = document.createElement('a');
+                            virtualLink.href = redirectUrl;
+                            virtualLink.target = '_blank';
+                            virtualLink.rel = 'noopener noreferrer';
+                            virtualLink.style.cssText = 'position:absolute;left:-9999px;';
+                            document.body.appendChild(virtualLink);
+                            virtualLink.click();
+                            setTimeout(() => document.body.removeChild(virtualLink), 1000);
+                        } else {
+                            const newWindow = window.open(redirectUrl, '_blank');
+                            if (!newWindow || newWindow.closed) {
+                                window.location.href = redirectUrl;
+                            }
+                        }
+                    }
+                    setTimeout(executeRedirect, isIOS18 ? 800 : 500);
                 }
             }
 
-            // Логика для Android (без изменений)
             if (isAndroid) {
                 let count = 3;
                 const countdown = document.getElementById('countdown');
@@ -191,7 +190,6 @@
             }
         }
 
-        // Остальные функции без изменений
         function setupEventHandlers() {
             document.getElementById('openLinkButton').addEventListener('click', openLink);
         }
