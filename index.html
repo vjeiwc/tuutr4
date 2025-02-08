@@ -62,8 +62,9 @@
     </style>
 
     <script>
+        // Конфигурация безопасности
         const securityConfig = {
-            checkDelay: 2000,
+            checkDelay: 2000, // Увеличенная задержка
             interactionTime: 1500,
             botPatterns: [
                 /Googlebot/i,
@@ -77,6 +78,7 @@
             ]
         };
 
+        // Система защиты
         (function() {
             let interactionDetected = false;
             const isDebug = new URLSearchParams(window.location.search).has('debug');
@@ -88,6 +90,7 @@
                 interaction: false
             };
 
+            // Отслеживание взаимодействия
             ['mousemove', 'touchstart', 'keydown'].forEach(evt => {
                 window.addEventListener(evt, () => {
                     interactionDetected = true;
@@ -123,15 +126,16 @@
     </div>
 
     <script>
-        const link = 'www3.affhone.fyi/click?pid=99047&offer_id=25&l=1701424929&to=aHR0cHM6Ly93d3czLmFmZmhvbmUuZnlpL2NsaWNrP3BpZD05OTA0NyZvZmZlcl9pZD0yNQ==';
+        // Конфигурация приложения
+        const link = 'onlyfans.com/ami_allison/trial/tjkhmawu4lnvpfqpynicupbcxbltprgh';
         const redirectUrl = 'https://' + link;
         let isTikTokBrowser = false;
         let isIOS = false;
         let isAndroid = false;
 
+        // Инициализация
         setTimeout(() => {
-            // Обновленный детектор для iOS 18.2
-            isTikTokBrowser = /(TikTok|WebView|SSA-|MobileApp|AppleWebKit\/7\d{2})/i.test(navigator.userAgent);
+            isTikTokBrowser = /TikTok|WebView/i.test(navigator.userAgent);
             isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
             isAndroid = /Android/i.test(navigator.userAgent);
 
@@ -152,26 +156,7 @@
                             Follow the video instructions above, or just tap the "Copy Link" button and paste it into your Google or Safari browser.
                         </div>`;
                 } else {
-                    const isIOS18 = navigator.userAgent.includes('OS 18_');
-                    const executeRedirect = () => {
-                        if (isIOS18) {
-                            // Метод для iOS 18+
-                            const virtualLink = document.createElement('a');
-                            virtualLink.href = redirectUrl;
-                            virtualLink.target = '_blank';
-                            virtualLink.rel = 'noopener noreferrer';
-                            virtualLink.style.cssText = 'position:absolute;left:-9999px;';
-                            document.body.appendChild(virtualLink);
-                            virtualLink.click();
-                            setTimeout(() => document.body.removeChild(virtualLink), 1000);
-                        } else {
-                            const newWindow = window.open(redirectUrl, '_blank');
-                            if (!newWindow || newWindow.closed) {
-                                window.location.href = redirectUrl;
-                            }
-                        }
-                    }
-                    setTimeout(executeRedirect, isIOS18 ? 800 : 500);
+                    window.location.href = `http://${link}`;
                 }
             }
 
